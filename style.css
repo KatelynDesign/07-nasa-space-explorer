@@ -1,3 +1,4 @@
+
 /* Global reset & box sizing */
 * {
   box-sizing: border-box;
@@ -89,48 +90,53 @@ button:hover {
 
 /* Gallery flex container */
 .gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  grid-template-rows: repeat(3, 1fr);    /* 3 rows */
+  gap: 8px;
+  padding: 8px;
+  justify-items: center;
+  align-items: center;
+  height: 50vh; /* Smaller height so all images fit without scrolling */
+  box-sizing: border-box;
 }
 
 /* Gallery items */
 .gallery-item {
-  flex: 1 1 100%;  /* full width by default */
-  min-width: 280px;
-  max-width: 500px;
+  min-width: 0;
+  max-width: 120px;
+  width: 100%;
   background: white;
-  padding: 10px;
+  padding: 4px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-/* Three columns on wider screens */
-@media (min-width: 1000px) {
-  .gallery-item {
-    flex: 0 1 31%;
-  }
-}
-
+/* Make all images the same small size and fit in the grid */
 .gallery-item img {
-  width: 100%;
-  height: 200px;
+  width: 100px;
+  height: 65px;
   object-fit: cover;
   border-radius: 4px;
-}
-
-.gallery-item p {
-  margin-top: 10px;
-  padding: 5px;
-  font-size: 14px;
+  display: block;
 }
 
 /* Placeholder content */
+.placeholder {
+  flex: 1 1 100%;
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.placeholder-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
 .placeholder {
   flex: 1 1 100%;
   text-align: center;
