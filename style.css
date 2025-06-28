@@ -171,6 +171,12 @@ button:hover {
   margin-top: 2px;
   margin-bottom: 2px;
   box-shadow: 0 2px 12px rgba(11,61,145,0.08);
+  transition: filter 0.3s;
+}
+
+/* On hover, make the image a bit brighter and slightly blurred */
+.gallery-item:hover img {
+  filter: brightness(1.08) contrast(1.08) blur(1px);
 }
 
 .gallery-item p {

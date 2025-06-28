@@ -82,47 +82,89 @@ function formatDateLong(dateString) {
   return `${months[date.getMonth()]} ${day}${suffix}, ${date.getFullYear()}`;
 }
 
-// This function displays images in the gallery
+// This function displays images and videos in the gallery
 function displayImages(images) {
   // Clear the gallery
   gallery.innerHTML = '';
-  // Loop through each image and add to the gallery
-  images.forEach(image => {
-    // Only show images (not videos)
-    if (image.media_type === 'image') {
-      // Create a div for each image
-      const imgDiv = document.createElement('div');
-      imgDiv.className = 'gallery-item';
+  // Loop through each item and add to the gallery
+  images.forEach(item => {
+    // Create a div for each gallery item
+    const itemDiv = document.createElement('div');
+    itemDiv.className = 'gallery-item';
+
+    // Check if the item is an image
+    if (item.media_type === 'image') {
       // Create an image element
       const img = document.createElement('img');
-      img.src = image.url;
-      img.alt = image.title;
+      img.src = item.url;
+      img.alt = item.title;
       // Add a click event to open the modal with image details
       img.addEventListener('click', () => {
-        openModal(image);
+        openModal(item);
       });
-      // Create a title element
-      const title = document.createElement('p');
-      title.textContent = image.title;
-      title.style.fontWeight = 'bold';
-      title.style.margin = '14px 0 10px 0'; // Add more space below the title
-      title.style.fontSize = '16px';
-      title.style.textAlign = 'center';
-      // Create a date element (formatted)
-      const date = document.createElement('p');
-      date.textContent = formatDateLong(image.date);
-      date.className = 'date-label'; // Add class for DM Mono font
-      date.style.margin = '0 0 0 0';
-      date.style.fontSize = '14px';
-      date.style.color = '#666';
-      date.style.textAlign = 'center';
-      // Add image, title, and date to the div
-      imgDiv.appendChild(img);
-      imgDiv.appendChild(title);
-      imgDiv.appendChild(date);
-      // Add the div to the gallery
-      gallery.appendChild(imgDiv);
+      itemDiv.appendChild(img);
     }
+
+    // Check if the item is a video
+    if (item.media_type === 'video') {
+      // Create a placeholder for video (could be an icon or text)
+      const videoPlaceholder = document.createElement('div');
+      videoPlaceholder.style.width = '340px';
+      videoPlaceholder.style.height = '230px';
+      videoPlaceholder.style.display = 'flex';
+      videoPlaceholder.style.alignItems = 'center';
+      videoPlaceholder.style.justifyContent = 'center';
+      videoPlaceholder.style.background = '#eee';
+      videoPlaceholder.style.borderRadius = '10px';
+      videoPlaceholder.style.marginBottom = '8px';
+
+      // Add a play icon (simple emoji for beginners)
+      videoPlaceholder.textContent = '▶️';
+
+      itemDiv.appendChild(videoPlaceholder);
+
+      // Create a "Watch Video" link
+      const watchLink = document.createElement('a');
+      watchLink.href = item.url;
+      watchLink.textContent = 'Watch Video';
+      watchLink.target = '_blank'; // Open in new tab by default
+      watchLink.style.display = 'block';
+      watchLink.style.textAlign = 'center';
+      watchLink.style.margin = '10px 0';
+      watchLink.style.fontWeight = 'bold';
+      watchLink.style.color = '#0b3d91';
+      watchLink.style.textDecoration = 'underline';
+      // Optional: open in modal instead of new tab
+      watchLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal(item);
+      });
+      itemDiv.appendChild(watchLink);
+    }
+
+    // Create a title element
+    const title = document.createElement('p');
+    title.textContent = item.title;
+    title.style.fontWeight = 'bold';
+    title.style.margin = '14px 0 10px 0';
+    title.style.fontSize = '16px';
+    title.style.textAlign = 'center';
+
+    // Create a date element (formatted)
+    const date = document.createElement('p');
+    date.textContent = formatDateLong(item.date);
+    date.className = 'date-label';
+    date.style.margin = '0 0 0 0';
+    date.style.fontSize = '14px';
+    date.style.color = '#666';
+    date.style.textAlign = 'center';
+
+    // Add title and date to the div
+    itemDiv.appendChild(title);
+    itemDiv.appendChild(date);
+
+    // Add the div to the gallery
+    gallery.appendChild(itemDiv);
   });
 }
 
@@ -186,7 +228,7 @@ function createModal() {
 }
 
 // Function to open modal with image details
-function openModal(image) {
+function openModal(item) {
   createModal(); // Ensure modal exists
 
   // Clear previous content except close button
@@ -194,41 +236,82 @@ function openModal(image) {
     modalContent.removeChild(modalContent.lastChild);
   }
 
-  // Full-size image
-  const fullImg = document.createElement('img');
-  fullImg.src = image.hdurl || image.url;
-  fullImg.alt = image.title;
-  fullImg.style.maxWidth = '80vw';
-  fullImg.style.maxHeight = '60vh';
-  fullImg.style.borderRadius = '6px';
-  fullImg.style.marginBottom = '18px';
+  // If the item is an image, show the image
+  if (item.media_type === 'image') {
+    const fullImg = document.createElement('img');
+    fullImg.src = item.hdurl || item.url;
+    fullImg.alt = item.title;
+    fullImg.style.maxWidth = '80vw';
+    fullImg.style.maxHeight = '60vh';
+    fullImg.style.borderRadius = '6px';
+    fullImg.style.marginBottom = '18px';
+    modalContent.appendChild(fullImg);
+  }
+
+  // If the item is a video, embed the video if possible
+  if (item.media_type === 'video') {
+    // Try to embed YouTube or Vimeo videos
+    let embedUrl = '';
+    if (item.url.includes('youtube.com') || item.url.includes('youtu.be')) {
+      // Convert to embed URL for YouTube
+      const videoId = item.url.split('v=')[1] || item.url.split('/').pop();
+      embedUrl = `https://www.youtube.com/embed/${videoId}`;
+    } else if (item.url.includes('vimeo.com')) {
+      // Convert to embed URL for Vimeo
+      const videoId = item.url.split('/').pop();
+      embedUrl = `https://player.vimeo.com/video/${videoId}`;
+    }
+
+    if (embedUrl) {
+      // Create iframe for video
+      const iframe = document.createElement('iframe');
+      iframe.src = embedUrl;
+      iframe.width = '560';
+      iframe.height = '315';
+      iframe.frameBorder = '0';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.style.maxWidth = '80vw';
+      iframe.style.maxHeight = '60vh';
+      iframe.style.marginBottom = '18px';
+      modalContent.appendChild(iframe);
+    } else {
+      // If can't embed, show a link
+      const videoLink = document.createElement('a');
+      videoLink.href = item.url;
+      videoLink.textContent = 'Watch Video on NASA';
+      videoLink.target = '_blank';
+      videoLink.style.fontWeight = 'bold';
+      videoLink.style.fontSize = '1.2em';
+      videoLink.style.marginBottom = '18px';
+      modalContent.appendChild(videoLink);
+    }
+  }
 
   // Title
   const title = document.createElement('h2');
-  title.textContent = image.title;
+  title.textContent = item.title;
   title.style.margin = '0 0 8px 0';
   title.style.fontSize = '1.5em';
   title.style.textAlign = 'center';
 
   // Date
   const date = document.createElement('p');
-  date.textContent = formatDateLong(image.date);
-  date.className = 'date-label'; // Use DM Mono for modal date
+  date.textContent = formatDateLong(item.date);
+  date.className = 'date-label';
   date.style.margin = '0 0 12px 0';
   date.style.fontWeight = 'bold';
   date.style.textAlign = 'center';
 
   // Explanation
   const explanation = document.createElement('p');
-  explanation.textContent = image.explanation;
-  // No need to set font here; CSS uses Public Sans for modal explanation
+  explanation.textContent = item.explanation;
   explanation.style.fontSize = '1.15em';
   explanation.style.lineHeight = '1.5';
   explanation.style.margin = '0 0 8px 0';
   explanation.style.textAlign = 'left';
 
   // Add elements to modal content
-  modalContent.appendChild(fullImg);
   modalContent.appendChild(title);
   modalContent.appendChild(date);
   modalContent.appendChild(explanation);
