@@ -1,4 +1,3 @@
-
 /* Global reset & box sizing */
 * {
   box-sizing: border-box;
@@ -8,7 +7,7 @@
 
 /* Base page styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Public Sans', Arial, sans-serif; /* Use Public Sans for body copy */
   background-color: #f1f1f1;
   padding: 20px;
 }
@@ -30,9 +29,19 @@ body {
 }
 
 h1 {
-  font-family: Verdana, sans-serif;
+  font-family: 'Inter', Helvetica, Arial, sans-serif; /* Use Inter for main heading */
   font-weight: bold;
   color: #212121;
+  letter-spacing: 1px;
+}
+
+/* If you ever display "NASA" or "National Aeronautics and Space Administration" in text, use this: */
+.nasa-agency,
+.nasa-acronym {
+  font-family: 'Inter', Helvetica, Arial, sans-serif; /* Clean sans-serif for agency name/acronym */
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 /* Logo */
@@ -47,7 +56,7 @@ h1 {
   flex-direction: column;
   gap: 10px;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 60px; /* Increased space below date selection bar */
   padding: 0 20px;
 }
 
@@ -92,22 +101,23 @@ button:hover {
 .gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 columns */
-  grid-template-rows: repeat(3, 1fr);    /* 3 rows */
-  gap: 8px;
+  grid-auto-rows: minmax(320px, auto);   /* Even taller rows for bigger images and captions */
+  column-gap: 12px;
+  row-gap: 24px;
   padding: 8px;
   justify-items: center;
-  align-items: center;
-  height: 50vh; /* Smaller height so all images fit without scrolling */
+  align-items: start;
+  height: auto;
   box-sizing: border-box;
 }
 
 /* Gallery items */
 .gallery-item {
   min-width: 0;
-  max-width: 120px;
+  max-width: 360px; /* Wider for larger images and captions */
   width: 100%;
   background: white;
-  padding: 4px;
+  padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   overflow: hidden;
@@ -118,11 +128,45 @@ button:hover {
 
 /* Make all images the same small size and fit in the grid */
 .gallery-item img {
-  width: 100px;
-  height: 65px;
+  width: 340px;    /* Increased image width */
+  height: 230px;   /* Increased image height */
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 6px;
   display: block;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.gallery-item p {
+  margin-top: 14px;
+  font-size: 18px;
+  text-align: center;
+  word-break: break-word;
+  line-height: 1.3;
+  min-height: 2.5em;
+  max-width: 320px;
+  overflow-wrap: break-word;
+  font-family: 'Public Sans', Arial, sans-serif; /* Use Public Sans for body text */
+}
+
+.gallery-item p:first-of-type {
+  /* This targets the title under the image */
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  font-family: 'Inter', Helvetica, Arial, sans-serif; /* Use Inter for image titles */
+  letter-spacing: 0.5px;
+  color: #fc3d21; /* NASA Red from branding guidelines */
+}
+
+.gallery-item p:last-of-type {
+  /* This targets the date under the title */
+  font-family: 'DM Mono', 'Courier New', monospace; /* Use DM Mono for dates */
+  font-size: 17px;
+  color: #555;
+  margin-top: 0;
+  margin-bottom: 0;
+  letter-spacing: 0.2px;
 }
 
 /* Placeholder content */
@@ -131,20 +175,44 @@ button:hover {
   text-align: center;
   padding: 40px;
   color: #666;
+  font-family: 'Public Sans', Arial, sans-serif; /* Use Public Sans for placeholder text */
+  font-size: 1.2em;
 }
 
 .placeholder-icon {
   font-size: 48px;
   margin-bottom: 20px;
 }
-.placeholder {
-  flex: 1 1 100%;
-  text-align: center;
-  padding: 40px;
-  color: #666;
+
+/* Modal styles */
+#imageModal {
+  /* All main styles are set in JS for simplicity */
 }
 
-.placeholder-icon {
-  font-size: 48px;
-  margin-bottom: 20px;
+#imageModal img {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  background: #222;
 }
+
+#imageModal h2 {
+  font-family: 'Inter', Helvetica, Arial, sans-serif; /* Use Inter for modal title */
+  color: #222;
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#imageModal p {
+  color: #333;
+  font-family: 'Public Sans', Arial, sans-serif; /* Use Public Sans for modal explanation/body */
+  font-size: 1.15em;
+  margin-bottom: 8px;
+}
+
+#imageModal p.date-label {
+  font-family: 'DM Mono', 'Courier New', monospace; /* Use DM Mono for modal date */
+  color: #555;
+  font-size: 1em;
+  margin-bottom: 14px;
+}
+
