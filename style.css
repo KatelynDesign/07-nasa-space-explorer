@@ -1,3 +1,13 @@
+/* NASA Brand Colors */
+:root {
+  --nasa-red: #fc3d21;
+  --nasa-blue: #0b3d91;
+  --nasa-dark: #212121;
+  --nasa-light: #f1f1f1;
+  --nasa-white: #fff;
+  --nasa-gray: #e5e5e5;
+}
+
 /* Global reset & box sizing */
 * {
   box-sizing: border-box;
@@ -7,90 +17,108 @@
 
 /* Base page styles */
 body {
-  font-family: 'Public Sans', Arial, sans-serif; /* Use Public Sans for body copy */
-  background-color: #f1f1f1;
-  padding: 20px;
+  font-family: 'Public Sans', Arial, sans-serif;
+  background: linear-gradient(135deg, var(--nasa-light) 0%, var(--nasa-gray) 100%);
+  min-height: 100vh;
+  padding: 0;
 }
 
 /* Centered container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
+  background: var(--nasa-white);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(11,61,145,0.10);
+  padding: 32px 24px 48px 24px;
+  margin-top: 32px;
+  margin-bottom: 32px;
 }
 
 /* Header */
 .site-header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  justify-content: flex-start;
+  background: var(--nasa-white); /* White background for logo compliance */
+  border-radius: 12px;
+  padding: 24px 32px 24px 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 16px rgba(11,61,145,0.08);
+  border: 2px solid var(--nasa-blue);
+}
+
+.logo {
+  width: 80px;
+  min-width: 80px;
+  margin-right: 28px;
+  /* No filter, shadow, or effect on logo per NASA guidelines */
+  background: var(--nasa-white);
+  border-radius: 8px;
+  padding: 4px;
+  box-sizing: content-box;
 }
 
 h1 {
-  font-family: 'Inter', Helvetica, Arial, sans-serif; /* Use Inter for main heading */
-  font-weight: bold;
-  color: #212121;
-  letter-spacing: 1px;
-}
-
-/* If you ever display "NASA" or "National Aeronautics and Space Administration" in text, use this: */
-.nasa-agency,
-.nasa-acronym {
-  font-family: 'Inter', Helvetica, Arial, sans-serif; /* Clean sans-serif for agency name/acronym */
-  font-weight: bold;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-/* Logo */
-.logo {
-  width: 140px;
-  margin-right: 15px;
+  font-family: 'Inter', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  color: var(--nasa-blue);
+  font-size: 2.6em;
+  letter-spacing: 2px;
+  text-shadow: none;
 }
 
 /* Date‐picker & button row */
 .filters {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   justify-content: center;
-  margin-bottom: 60px; /* Increased space below date selection bar */
+  align-items: center;
+  margin-bottom: 48px;
   padding: 0 20px;
 }
 
-/* Inputs and buttons */
 input[type="date"],
 button {
-  font-family: Arial, sans-serif;
-  font-weight: normal;
-  color: #666;
-  padding: 10px 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
+  font-family: 'Public Sans', Arial, sans-serif;
+  color: var(--nasa-dark);
+  padding: 12px 18px;
+  border: 2px solid var(--nasa-blue);
+  border-radius: 6px;
+  font-size: 18px;
   line-height: 1.4;
   width: 100%;
+  background: var(--nasa-light);
+  transition: border 0.2s, box-shadow 0.2s;
 }
 
-/* Button specific */
+input[type="date"]:focus {
+  outline: none;
+  border: 2px solid var(--nasa-red);
+  box-shadow: 0 0 0 2px var(--nasa-red, #fc3d21, 0.2);
+}
+
 button {
-  background-color: #d3d3d3;
-  color: black;
+  background: var(--nasa-blue);
+  color: var(--nasa-white);
+  font-weight: bold;
   cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 8px rgba(11,61,145,0.08);
+  transition: background 0.2s, box-shadow 0.2s;
 }
 button:hover {
-  background-color: #bfbfbf;
+  background: var(--nasa-red);
+  color: var(--nasa-white);
+  box-shadow: 0 4px 16px rgba(252,61,33,0.12);
 }
 
-/* Stack horizontally on wider screens */
 @media (min-width: 600px) {
   .filters {
     flex-direction: row;
     padding: 0;
   }
-  
   input[type="date"],
   button {
     width: auto;
@@ -100,10 +128,10 @@ button:hover {
 /* Gallery flex container */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns */
-  grid-auto-rows: minmax(320px, auto);   /* Even taller rows for bigger images and captions */
-  column-gap: 12px;
-  row-gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-auto-rows: minmax(340px, auto);
+  column-gap: 18px;
+  row-gap: 32px;
   padding: 8px;
   justify-items: center;
   align-items: start;
@@ -114,27 +142,35 @@ button:hover {
 /* Gallery items */
 .gallery-item {
   min-width: 0;
-  max-width: 360px; /* Wider for larger images and captions */
+  max-width: 380px;
   width: 100%;
-  background: white;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background: var(--nasa-white);
+  padding: 16px 12px 20px 12px;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(11,61,145,0.10);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: transform 0.18s, box-shadow 0.18s;
+  border: 2px solid var(--nasa-blue);
+}
+.gallery-item:hover {
+  transform: translateY(-6px) scale(1.025);
+  box-shadow: 0 8px 32px rgba(252,61,33,0.13);
+  border: 2px solid var(--nasa-red);
 }
 
 /* Make all images the same small size and fit in the grid */
 .gallery-item img {
-  width: 340px;    /* Increased image width */
-  height: 230px;   /* Increased image height */
+  width: 340px;
+  height: 230px;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 10px;
   display: block;
   margin-top: 2px;
   margin-bottom: 2px;
+  box-shadow: 0 2px 12px rgba(11,61,145,0.08);
 }
 
 .gallery-item p {
@@ -146,24 +182,23 @@ button:hover {
   min-height: 2.5em;
   max-width: 320px;
   overflow-wrap: break-word;
-  font-family: 'Public Sans', Arial, sans-serif; /* Use Public Sans for body text */
+  font-family: 'Public Sans', Arial, sans-serif;
 }
 
 .gallery-item p:first-of-type {
-  /* This targets the title under the image */
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   margin-bottom: 16px;
-  font-family: 'Inter', Helvetica, Arial, sans-serif; /* Use Inter for image titles */
+  font-family: 'Inter', Helvetica, Arial, sans-serif;
   letter-spacing: 0.5px;
-  color: #fc3d21; /* NASA Red from branding guidelines */
+  color: var(--nasa-red);
+  text-shadow: none;
 }
 
 .gallery-item p:last-of-type {
-  /* This targets the date under the title */
-  font-family: 'DM Mono', 'Courier New', monospace; /* Use DM Mono for dates */
+  font-family: 'DM Mono', 'Courier New', monospace;
   font-size: 17px;
-  color: #555;
+  color: var(--nasa-blue);
   margin-top: 0;
   margin-bottom: 0;
   letter-spacing: 0.2px;
@@ -174,14 +209,19 @@ button:hover {
   flex: 1 1 100%;
   text-align: center;
   padding: 40px;
-  color: #666;
-  font-family: 'Public Sans', Arial, sans-serif; /* Use Public Sans for placeholder text */
-  font-size: 1.2em;
+  color: var(--nasa-blue);
+  font-family: 'Public Sans', Arial, sans-serif;
+  font-size: 1.3em;
+  background: var(--nasa-light);
+  border-radius: 12px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 12px rgba(11,61,145,0.06);
 }
 
 .placeholder-icon {
-  font-size: 48px;
+  font-size: 56px;
   margin-bottom: 20px;
+  color: var(--nasa-red);
 }
 
 /* Modal styles */
@@ -190,29 +230,64 @@ button:hover {
 }
 
 #imageModal img {
-  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  box-shadow: 0 2px 18px rgba(11,61,145,0.18);
   background: #222;
+  border-radius: 12px;
+  margin-bottom: 18px;
 }
 
 #imageModal h2 {
-  font-family: 'Inter', Helvetica, Arial, sans-serif; /* Use Inter for modal title */
-  color: #222;
-  font-size: 2em;
+  font-family: 'Inter', Helvetica, Arial, sans-serif;
+  color: var(--nasa-red);
+  font-size: 2.2em;
   font-weight: bold;
   margin-bottom: 10px;
+  letter-spacing: 1px;
+  text-align: center;
+  text-shadow: none;
 }
 
 #imageModal p {
-  color: #333;
-  font-family: 'Public Sans', Arial, sans-serif; /* Use Public Sans for modal explanation/body */
-  font-size: 1.15em;
+  color: var(--nasa-dark);
+  font-family: 'Public Sans', Arial, sans-serif;
+  font-size: 1.18em;
   margin-bottom: 8px;
 }
 
 #imageModal p.date-label {
-  font-family: 'DM Mono', 'Courier New', monospace; /* Use DM Mono for modal date */
-  color: #555;
-  font-size: 1em;
+  font-family: 'DM Mono', 'Courier New', monospace;
+  color: var(--nasa-blue);
+  font-size: 1.08em;
   margin-bottom: 14px;
+  text-align: center;
+  letter-spacing: 0.2px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 700px) {
+  .container {
+    padding: 8px 2vw 24px 2vw;
+  }
+  .gallery-item img {
+    width: 98vw;
+    max-width: 98vw;
+    height: 180px;
+  }
+  .gallery-item {
+    max-width: 98vw;
+    padding: 10px 2vw 18px 2vw;
+  }
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 10px 18px 10px;
+  }
+  .logo {
+    margin-bottom: 10px;
+    margin-right: 0;
+  }
+  h1 {
+    font-size: 2em;
+  }
 }
 
