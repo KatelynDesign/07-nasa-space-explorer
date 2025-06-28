@@ -14,6 +14,39 @@ const endDateInput = document.getElementById('endDate');
 const getImagesButton = document.querySelector('.filters button');
 const gallery = document.getElementById('gallery');
 const placeholder = document.querySelector('.placeholder');
+const loadingMessage = document.getElementById('loading-message');
+const didYouKnow = document.getElementById('did-you-know');
+
+// List of beginner-friendly space facts
+const spaceFacts = [
+  "Did you know? The Sun is so big that about 1.3 million Earths could fit inside it!",
+  "Did you know? One day on Venus is longer than one year on Venus.",
+  "Did you know? Jupiter is the largest planet in our solar system.",
+  "Did you know? The footprints left by astronauts on the Moon will last millions of years.",
+  "Did you know? Saturn's rings are made mostly of ice and rock.",
+  "Did you know? A light-year is the distance light travels in one year—about 6 trillion miles!",
+  "Did you know? Mars is called the Red Planet because of its rusty color.",
+  "Did you know? There are more stars in the universe than grains of sand on Earth.",
+  "Did you know? Neptune has the strongest winds in the solar system.",
+  "Did you know? The International Space Station travels around Earth every 90 minutes."
+];
+
+// Function to show a random space fact in the loading message
+function showRandomSpaceFact() {
+  // Pick a random fact from the array
+  const randomIndex = Math.floor(Math.random() * spaceFacts.length);
+  const fact = spaceFacts[randomIndex];
+  // Display the fact in the loading message
+  didYouKnow.textContent = fact;
+  // Make sure the fact is visible
+  didYouKnow.style.display = 'block';
+}
+
+// Function to hide the space fact
+function hideSpaceFact() {
+  didYouKnow.textContent = '';
+  didYouKnow.style.display = 'none';
+}
 
 // NASA APOD API key and endpoint
 const API_KEY = 'mIOWblhfqMda7RckAdDlE8PiTg9El8fXSRKqKlEh';
@@ -241,6 +274,12 @@ getImagesButton.addEventListener('click', async () => {
     return;
   }
 
+  // Show loading message and random fact
+  loadingMessage.style.display = 'flex';
+  showRandomSpaceFact();
+  gallery.innerHTML = '';
+  placeholder.style.display = 'none';
+
   // Fetch images for the date range
   try {
     // If only one date, fetch single image
@@ -254,8 +293,14 @@ getImagesButton.addEventListener('click', async () => {
     displayImages(images);
     // Hide the placeholder
     placeholder.style.display = 'none';
+    // Hide loading message and fact after images are shown
+    loadingMessage.style.display = 'none';
+    hideSpaceFact();
   } catch (error) {
     // Show error message
     gallery.innerHTML = `<p>Could not fetch images. Please try again later.</p>`;
+    // Hide loading message and fact if there's an error
+    loadingMessage.style.display = 'none';
+    hideSpaceFact();
   }
 });

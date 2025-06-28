@@ -263,6 +263,61 @@ button:hover {
   letter-spacing: 0.2px;
 }
 
+/* Loading message styles */
+.loading-message {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  font-family: 'Inter', Helvetica, Arial, sans-serif;
+  font-size: 1.4em;
+  color: var(--nasa-blue);
+  background: var(--nasa-light);
+  border: 2px solid var(--nasa-blue);
+  border-radius: 10px;
+  padding: 24px 32px;
+  margin-bottom: 32px;
+  margin-top: 16px;
+  box-shadow: 0 2px 12px rgba(11,61,145,0.06);
+}
+
+.loading-message > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.loading-spinner {
+  font-size: 2em;
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+/* Did You Know? styles */
+.did-you-know {
+  margin-top: 18px;
+  font-size: 1.05em;
+  color: var(--nasa-red);
+  font-family: 'Public Sans', Arial, sans-serif;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  max-width: 600px;           /* Make the fact stretch wider */
+  width: 100%;                /* Allow it to fill the loading message */
+  text-align: left;
+  white-space: normal;        /* Allow normal wrapping */
+  word-break: normal;         /* Prevent breaking in the middle of words */
+  overflow-wrap: anywhere;    /* Only break if absolutely necessary */
+  line-height: 1.4;
+}
+
 /* Responsive tweaks */
 @media (max-width: 700px) {
   .container {
