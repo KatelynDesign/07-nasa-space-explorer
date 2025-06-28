@@ -103,37 +103,101 @@ function displayImages(images) {
         openModal(item);
       });
       itemDiv.appendChild(img);
+
+      // Create a title element
+      const title = document.createElement('p');
+      title.textContent = item.title;
+      title.style.fontWeight = 'bold';
+      title.style.margin = '14px 0 10px 0';
+      title.style.fontSize = '16px';
+      title.style.textAlign = 'center';
+
+      // Create a date element (formatted)
+      const date = document.createElement('p');
+      date.textContent = formatDateLong(item.date);
+      date.className = 'date-label';
+      date.style.margin = '0 0 0 0';
+      date.style.fontSize = '14px';
+      date.style.color = '#666';
+      date.style.textAlign = 'center';
+
+      // Add title and date to the div
+      itemDiv.appendChild(title);
+      itemDiv.appendChild(date);
     }
 
     // Check if the item is a video
     if (item.media_type === 'video') {
-      // Create a placeholder for video (could be an icon or text)
-      const videoPlaceholder = document.createElement('div');
-      videoPlaceholder.style.width = '340px';
-      videoPlaceholder.style.height = '230px';
-      videoPlaceholder.style.display = 'flex';
-      videoPlaceholder.style.alignItems = 'center';
-      videoPlaceholder.style.justifyContent = 'center';
-      videoPlaceholder.style.background = '#eee';
-      videoPlaceholder.style.borderRadius = '10px';
-      videoPlaceholder.style.marginBottom = '8px';
+      // NASA-branded video card
+      const videoCard = document.createElement('div');
+      videoCard.className = 'nasa-video-card';
+      videoCard.style.width = '340px';
+      videoCard.style.height = '230px';
+      videoCard.style.display = 'flex';
+      videoCard.style.alignItems = 'center';
+      videoCard.style.justifyContent = 'center';
+      videoCard.style.background = 'var(--nasa-blue)';
+      videoCard.style.borderRadius = '10px';
+      videoCard.style.marginBottom = '8px';
+      videoCard.style.border = '3px solid var(--nasa-red)';
+      videoCard.style.position = 'relative';
+      // Add a NASA worm logo watermark (bottom right)
+      const logo = document.createElement('img');
+      logo.src = 'img/nasa-worm-logo.png';
+      logo.alt = 'NASA Logo';
+      logo.style.position = 'absolute';
+      logo.style.bottom = '8px';
+      logo.style.right = '8px';
+      logo.style.width = '38px';
+      logo.style.opacity = '0.85';
+      videoCard.appendChild(logo);
+      // Add a play icon using SVG (white triangle, NASA style)
+      const playIcon = document.createElement('div');
+      playIcon.innerHTML = `
+        <svg width="64" height="64" viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="32" fill="var(--nasa-red)" />
+          <polygon points="26,20 48,32 26,44" fill="var(--nasa-white)"/>
+        </svg>
+      `;
+      playIcon.style.zIndex = '2';
+      playIcon.style.position = 'relative';
+      videoCard.appendChild(playIcon);
+      itemDiv.appendChild(videoCard);
 
-      // Add a play icon (simple emoji for beginners)
-      videoPlaceholder.textContent = '▶️';
+      // Create a title element (NASA font/colors)
+      const title = document.createElement('p');
+      title.textContent = item.title;
+      title.style.fontWeight = 'bold';
+      title.style.margin = '14px 0 10px 0';
+      title.style.fontSize = '16px';
+      title.style.textAlign = 'center';
+      title.style.fontFamily = "'Inter', Helvetica, Arial, sans-serif";
+      title.style.color = 'var(--nasa-red)';
+      itemDiv.appendChild(title);
 
-      itemDiv.appendChild(videoPlaceholder);
+      // Create a date element (formatted, NASA mono font)
+      const date = document.createElement('p');
+      date.textContent = formatDateLong(item.date);
+      date.className = 'date-label';
+      date.style.margin = '0 0 0 0';
+      date.style.fontSize = '14px';
+      date.style.color = 'var(--nasa-blue)';
+      date.style.textAlign = 'center';
+      date.style.fontFamily = "'DM Mono', 'Courier New', monospace";
+      itemDiv.appendChild(date);
 
-      // Create a "Watch Video" link
+      // Create a "Watch Video" link (NASA blue, bold, underline)
       const watchLink = document.createElement('a');
       watchLink.href = item.url;
       watchLink.textContent = 'Watch Video';
-      watchLink.target = '_blank'; // Open in new tab by default
+      watchLink.target = '_blank';
       watchLink.style.display = 'block';
       watchLink.style.textAlign = 'center';
       watchLink.style.margin = '10px 0';
       watchLink.style.fontWeight = 'bold';
-      watchLink.style.color = '#0b3d91';
+      watchLink.style.color = 'var(--nasa-blue)';
       watchLink.style.textDecoration = 'underline';
+      watchLink.style.fontFamily = "'Public Sans', Arial, sans-serif";
       // Optional: open in modal instead of new tab
       watchLink.addEventListener('click', (e) => {
         e.preventDefault();
@@ -141,27 +205,6 @@ function displayImages(images) {
       });
       itemDiv.appendChild(watchLink);
     }
-
-    // Create a title element
-    const title = document.createElement('p');
-    title.textContent = item.title;
-    title.style.fontWeight = 'bold';
-    title.style.margin = '14px 0 10px 0';
-    title.style.fontSize = '16px';
-    title.style.textAlign = 'center';
-
-    // Create a date element (formatted)
-    const date = document.createElement('p');
-    date.textContent = formatDateLong(item.date);
-    date.className = 'date-label';
-    date.style.margin = '0 0 0 0';
-    date.style.fontSize = '14px';
-    date.style.color = '#666';
-    date.style.textAlign = 'center';
-
-    // Add title and date to the div
-    itemDiv.appendChild(title);
-    itemDiv.appendChild(date);
 
     // Add the div to the gallery
     gallery.appendChild(itemDiv);
@@ -359,7 +402,25 @@ getImagesButton.addEventListener('click', async () => {
 
   // Show loading message and random fact
   loadingMessage.style.display = 'flex';
-  showRandomSpaceFact();
+  loadingMessage.style.background = 'var(--nasa-blue)'; // NASA blue background
+  loadingMessage.style.border = '3px solid var(--nasa-red)'; // NASA red border
+  loadingMessage.style.color = 'var(--nasa-white)'; // White text
+  loadingMessage.style.fontFamily = "'Inter', Helvetica, Arial, sans-serif";
+  loadingMessage.style.fontWeight = 'bold';
+  loadingMessage.style.fontSize = '1.4em';
+  // Add NASA logo to loading overlay if not already present
+  if (!document.getElementById('nasa-loading-logo')) {
+    const logo = document.createElement('img');
+    logo.src = 'img/nasa-worm-logo.png';
+    logo.alt = 'NASA Logo';
+    logo.id = 'nasa-loading-logo';
+    logo.style.width = '60px';
+    logo.style.marginBottom = '12px';
+    logo.style.display = 'block';
+    logo.style.marginLeft = 'auto';
+    logo.style.marginRight = 'auto';
+    loadingMessage.insertBefore(logo, loadingMessage.firstChild);
+  }
   gallery.innerHTML = '';
   placeholder.style.display = 'none';
 

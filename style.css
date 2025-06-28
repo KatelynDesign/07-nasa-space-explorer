@@ -324,6 +324,79 @@ button:hover {
   line-height: 1.4;
 }
 
+/* NASA-branded video card */
+.nasa-video-card {
+  background: var(--nasa-blue);
+  border: 3px solid var(--nasa-red);
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 340px;
+  height: 230px;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 24px rgba(11,61,145,0.13);
+  overflow: hidden;
+}
+.nasa-video-card img {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 38px;
+  opacity: 0.85;
+  z-index: 3;
+  pointer-events: none;
+}
+.nasa-video-card svg {
+  display: block;
+  margin: 0 auto;
+}
+
+/* NASA-branded loading overlay */
+#loading-message {
+  background: var(--nasa-blue) !important;
+  border: 3px solid var(--nasa-red) !important;
+  color: var(--nasa-white) !important;
+  font-family: 'Inter', Helvetica, Arial, sans-serif !important;
+  font-weight: bold !important;
+  font-size: 1.4em !important;
+  box-shadow: 0 4px 24px rgba(11,61,145,0.13);
+  position: relative;
+}
+#nasa-loading-logo {
+  display: block;
+  margin: 0 auto 12px auto;
+  width: 60px;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  pointer-events: none;
+}
+.loading-message > div:first-child {
+  color: var(--nasa-white);
+  font-family: 'Inter', Helvetica, Arial, sans-serif;
+  font-weight: bold;
+}
+.loading-spinner {
+  font-size: 2em;
+  animation: spin 1.2s linear infinite;
+  color: var(--nasa-red);
+}
+.did-you-know {
+  color: var(--nasa-red) !important;
+  font-family: 'Public Sans', Arial, sans-serif !important;
+  background: none !important;
+  border: none !important;
+  font-weight: bold;
+  font-size: 1.08em;
+  margin-top: 18px;
+  text-align: left;
+  max-width: 600px;
+  width: 100%;
+  line-height: 1.4;
+}
+
 /* Responsive tweaks */
 @media (max-width: 700px) {
   .container {
