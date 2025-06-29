@@ -107,6 +107,11 @@ function displayImages(images) {
       img.addEventListener('click', () => {
         openModal(item);
       });
+      // Also open modal if user clicks anywhere on the card
+      itemDiv.addEventListener('click', (e) => {
+        // Only trigger if not clicking a link (for video)
+        if (e.target.tagName !== 'A') openModal(item);
+      });
       mediaDiv.appendChild(img);
       itemDiv.appendChild(mediaDiv);
     }
@@ -137,6 +142,11 @@ function displayImages(images) {
       playIcon.style.position = 'relative';
       mediaDiv.appendChild(playIcon);
       itemDiv.appendChild(mediaDiv);
+
+      // Also open modal if user clicks anywhere on the card except the link
+      itemDiv.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'A') openModal(item);
+      });
     }
 
     // --- Card Title (same for both) ---
@@ -196,12 +206,12 @@ function createModal() {
   // Modal content box
   modalContent = document.createElement('div');
   modalContent.style.background = '#fff';
-  modalContent.style.borderRadius = '8px';
-  modalContent.style.padding = '24px';
-  modalContent.style.maxWidth = '90vw';
+  modalContent.style.borderRadius = '14px';
+  modalContent.style.padding = '32px 24px 28px 24px';
+  modalContent.style.maxWidth = '95vw';
   modalContent.style.maxHeight = '90vh';
   modalContent.style.overflowY = 'auto';
-  modalContent.style.boxShadow = '0 4px 24px rgba(0,0,0,0.2)';
+  modalContent.style.boxShadow = '0 4px 24px rgba(11,61,145,0.18)';
   modalContent.style.position = 'relative';
   modalContent.style.display = 'flex';
   modalContent.style.flexDirection = 'column';
@@ -211,11 +221,11 @@ function createModal() {
   modalClose = document.createElement('span');
   modalClose.textContent = '✖';
   modalClose.style.position = 'absolute';
-  modalClose.style.top = '12px';
-  modalClose.style.right = '18px';
-  modalClose.style.fontSize = '28px';
+  modalClose.style.top = '16px';
+  modalClose.style.right = '24px';
+  modalClose.style.fontSize = '2em';
   modalClose.style.cursor = 'pointer';
-  modalClose.style.color = '#333';
+  modalClose.style.color = 'var(--nasa-red)';
   modalClose.title = 'Close';
 
   // Close modal on click
@@ -239,34 +249,29 @@ function openModal(item) {
     modalContent.removeChild(modalContent.lastChild);
   }
 
-  // If the item is an image, show the image
+  // Show a larger image or video
   if (item.media_type === 'image') {
     const fullImg = document.createElement('img');
     fullImg.src = item.hdurl || item.url;
     fullImg.alt = item.title;
-    fullImg.style.maxWidth = '80vw';
+    fullImg.style.maxWidth = '90vw';
     fullImg.style.maxHeight = '60vh';
-    fullImg.style.borderRadius = '6px';
-    fullImg.style.marginBottom = '18px';
+    fullImg.style.borderRadius = '10px';
+    fullImg.style.marginBottom = '22px';
     modalContent.appendChild(fullImg);
   }
 
-  // If the item is a video, embed the video if possible
   if (item.media_type === 'video') {
     // Try to embed YouTube or Vimeo videos
     let embedUrl = '';
     if (item.url.includes('youtube.com') || item.url.includes('youtu.be')) {
-      // Convert to embed URL for YouTube
       const videoId = item.url.split('v=')[1] || item.url.split('/').pop();
       embedUrl = `https://www.youtube.com/embed/${videoId}`;
     } else if (item.url.includes('vimeo.com')) {
-      // Convert to embed URL for Vimeo
       const videoId = item.url.split('/').pop();
       embedUrl = `https://player.vimeo.com/video/${videoId}`;
     }
-
     if (embedUrl) {
-      // Create iframe for video
       const iframe = document.createElement('iframe');
       iframe.src = embedUrl;
       iframe.width = '560';
@@ -274,49 +279,52 @@ function openModal(item) {
       iframe.frameBorder = '0';
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
       iframe.allowFullscreen = true;
-      iframe.style.maxWidth = '80vw';
+      iframe.style.maxWidth = '90vw';
       iframe.style.maxHeight = '60vh';
-      iframe.style.marginBottom = '18px';
+      iframe.style.marginBottom = '22px';
       modalContent.appendChild(iframe);
     } else {
-      // If can't embed, show a link
       const videoLink = document.createElement('a');
       videoLink.href = item.url;
       videoLink.textContent = 'Watch Video on NASA';
       videoLink.target = '_blank';
       videoLink.style.fontWeight = 'bold';
       videoLink.style.fontSize = '1.2em';
-      videoLink.style.marginBottom = '18px';
+      videoLink.style.marginBottom = '22px';
       modalContent.appendChild(videoLink);
     }
   }
 
-  // Title
+  // Title (full)
   const title = document.createElement('h2');
   title.textContent = item.title;
-  title.style.margin = '0 0 8px 0';
-  title.style.fontSize = '1.5em';
+  title.style.margin = '0 0 12px 0';
+  title.style.fontSize = '1.6em';
   title.style.textAlign = 'center';
+  title.style.fontFamily = "'Inter', Helvetica, Arial, sans-serif";
+  title.style.color = 'var(--nasa-dark-blue)';
+  modalContent.appendChild(title);
 
   // Date
   const date = document.createElement('p');
   date.textContent = formatDateLong(item.date);
   date.className = 'date-label';
-  date.style.margin = '0 0 12px 0';
+  date.style.margin = '0 0 18px 0';
   date.style.fontWeight = 'bold';
   date.style.textAlign = 'center';
+  date.style.fontFamily = "'DM Mono', 'Courier New', monospace";
+  date.style.color = 'var(--nasa-gold)';
+  modalContent.appendChild(date);
 
-  // Explanation
+  // NASA Explanation
   const explanation = document.createElement('p');
   explanation.textContent = item.explanation;
-  explanation.style.fontSize = '1.15em';
+  explanation.style.fontSize = '1.13em';
   explanation.style.lineHeight = '1.5';
   explanation.style.margin = '0 0 8px 0';
   explanation.style.textAlign = 'left';
-
-  // Add elements to modal content
-  modalContent.appendChild(title);
-  modalContent.appendChild(date);
+  explanation.style.color = 'var(--nasa-gray-700)';
+  explanation.style.fontFamily = "'Public Sans', Arial, sans-serif";
   modalContent.appendChild(explanation);
 
   // Show modal
