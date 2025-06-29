@@ -139,75 +139,143 @@ button:hover {
   box-sizing: border-box;
 }
 
-/* Gallery items */
+/* NASA-branded gallery card (applies to both image and video) */
 .gallery-item {
-  min-width: 0;
-  max-width: 380px;
-  width: 100%;
+  /* Card size and layout */
+  width: 360px;
+  max-width: 360px;
+  min-width: 260px;
+  min-height: 420px;
   background: var(--nasa-white);
-  padding: 16px 12px 20px 12px;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(11,61,145,0.10);
-  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(11,61,145,0.13);
+  border: 3px solid var(--nasa-blue);
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.18s, box-shadow 0.18s;
-  border: 2px solid var(--nasa-blue);
+  padding: 18px 16px 22px 16px;
+  margin: 0 auto;
+  transition: box-shadow 0.18s, border 0.18s, transform 0.18s;
+  overflow: hidden;
+  position: relative;
 }
 .gallery-item:hover {
-  transform: translateY(-6px) scale(1.025);
   box-shadow: 0 8px 32px rgba(252,61,33,0.13);
-  border: 2px solid var(--nasa-red);
+  border: 3px solid var(--nasa-red);
+  transform: translateY(-6px) scale(1.025);
 }
 
-/* Make all images the same small size and fit in the grid */
-.gallery-item img {
-  width: 340px;
-  height: 230px;
+/* Shared image/video area */
+.gallery-item .gallery-media,
+.nasa-video-card {
+  width: 328px;
+  height: 210px;
+  background: var(--nasa-blue);
+  border-radius: 10px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(11,61,145,0.08);
+}
+
+/* Image styling inside card */
+.gallery-item img:not(.nasa-video-card img) {
+  width: 328px;
+  height: 210px;
   object-fit: cover;
   border-radius: 10px;
   display: block;
-  margin-top: 2px;
-  margin-bottom: 2px;
-  box-shadow: 0 2px 12px rgba(11,61,145,0.08);
-  transition: filter 0.3s;
+  margin: 0;
+  box-shadow: none;
 }
 
-/* On hover, make the image a bit brighter and slightly blurred */
-.gallery-item:hover img {
-  filter: brightness(1.08) contrast(1.08) blur(1px);
+/* Video card styling (same size as image) */
+.nasa-video-card {
+  width: 328px !important;
+  height: 210px !important;
+  background: var(--nasa-blue);
+  border: none;
+  margin-bottom: 18px;
+  border-radius: 10px;
+  box-shadow: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.nasa-video-card img {
+  /* NASA worm logo watermark for video */
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 36px;
+  opacity: 0.85;
+  z-index: 3;
+  pointer-events: none;
+}
+.nasa-video-card svg {
+  display: block;
+  margin: 0 auto;
 }
 
-.gallery-item p {
-  margin-top: 14px;
-  font-size: 18px;
-  text-align: center;
-  word-break: break-word;
-  line-height: 1.3;
-  min-height: 2.5em;
-  max-width: 320px;
-  overflow-wrap: break-word;
-  font-family: 'Public Sans', Arial, sans-serif;
-}
-
-.gallery-item p:first-of-type {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 16px;
+/* Card Title - left aligned, full width, wraps to left */
+.gallery-item .card-title {
   font-family: 'Inter', Helvetica, Arial, sans-serif;
+  font-size: 1.18em; /* Slightly bigger title */
+  font-weight: 700;
+  color: var(--nasa-blue);
+  text-align: left;
+  margin: 0 0 18px 0; /* Space below title */
   letter-spacing: 0.5px;
-  color: var(--nasa-red);
-  text-shadow: none;
+  line-height: 1.2;
+  min-height: 2.2em;
+  width: 100%;
+  max-width: 100%;
+  word-break: break-word;
+  white-space: normal;
+  padding-left: 0;
+  padding-right: 0;
+  box-sizing: border-box;
 }
 
-.gallery-item p:last-of-type {
+/* Card Date - left aligned, space below */
+.gallery-item .card-date {
   font-family: 'DM Mono', 'Courier New', monospace;
-  font-size: 17px;
-  color: var(--nasa-blue);
-  margin-top: 0;
-  margin-bottom: 0;
+  font-size: 1.08em;
+  color: var(--nasa-red);
+  text-align: left;
+  margin: 0 0 18px 0; /* Space below date */
   letter-spacing: 0.2px;
+  width: 100%;
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  box-sizing: border-box;
+}
+
+/* Card Video Link - center aligned for video cards */
+.gallery-item .card-link {
+  font-family: 'Public Sans', Arial, sans-serif;
+  color: var(--nasa-blue);
+  font-weight: bold;
+  text-align: center; /* Center the link */
+  text-decoration: underline;
+  font-size: 1.08em;
+  margin: 18px 0 0 0; /* Space above link */
+  display: block;
+  transition: color 0.2s;
+  width: 100%;
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  box-sizing: border-box;
+}
+.gallery-item .card-link:hover {
+  color: var(--nasa-red);
 }
 
 /* Placeholder content */
@@ -395,6 +463,84 @@ button:hover {
   max-width: 600px;
   width: 100%;
   line-height: 1.4;
+}
+
+/* NASA Hero Banner */
+.nasa-hero {
+  position: relative;
+  width: 100vw;
+  min-height: 260px;
+  background: var(--nasa-blue);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  border-bottom: 4px solid var(--nasa-red);
+  box-shadow: 0 6px 32px rgba(11,61,145,0.13);
+}
+
+#starfield {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: block;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.nasa-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 100%;
+  padding: 32px 0 24px 0;
+}
+
+.nasa-hero-logo {
+  width: 120px;
+  margin-bottom: 12px;
+  background: var(--nasa-white);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 2px 12px rgba(11,61,145,0.08);
+  display: inline-block;
+}
+
+.nasa-hero-title {
+  font-family: 'Inter', Helvetica, Arial, sans-serif;
+  color: var(--nasa-white);
+  font-size: 2.2em;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin: 0 0 8px 0;
+  text-shadow: 0 2px 8px rgba(11,61,145,0.18);
+}
+
+.nasa-hero-subtitle {
+  font-family: 'Public Sans', Arial, sans-serif;
+  color: var(--nasa-red);
+  font-size: 1.15em;
+  font-weight: 600;
+  margin: 0 auto;
+  max-width: 520px;
+  text-shadow: none;
+}
+
+/* Responsive for hero */
+@media (max-width: 700px) {
+  .nasa-hero-content {
+    padding: 18px 0 12px 0;
+  }
+  .nasa-hero-logo {
+    width: 80px;
+    padding: 3px;
+  }
+  .nasa-hero-title {
+    font-size: 1.3em;
+  }
+  .nasa-hero-subtitle {
+    font-size: 1em;
+  }
 }
 
 /* Responsive tweaks */

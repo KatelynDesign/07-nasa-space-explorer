@@ -92,55 +92,29 @@ function displayImages(images) {
     const itemDiv = document.createElement('div');
     itemDiv.className = 'gallery-item';
 
-    // Check if the item is an image
+    // --- Shared media container for both image and video ---
+    let mediaDiv;
     if (item.media_type === 'image') {
+      // Create a div for media
+      mediaDiv = document.createElement('div');
+      mediaDiv.className = 'gallery-media';
       // Create an image element
       const img = document.createElement('img');
       img.src = item.url;
       img.alt = item.title;
+      img.style.cursor = 'pointer';
       // Add a click event to open the modal with image details
       img.addEventListener('click', () => {
         openModal(item);
       });
-      itemDiv.appendChild(img);
-
-      // Create a title element
-      const title = document.createElement('p');
-      title.textContent = item.title;
-      title.style.fontWeight = 'bold';
-      title.style.margin = '14px 0 10px 0';
-      title.style.fontSize = '16px';
-      title.style.textAlign = 'center';
-
-      // Create a date element (formatted)
-      const date = document.createElement('p');
-      date.textContent = formatDateLong(item.date);
-      date.className = 'date-label';
-      date.style.margin = '0 0 0 0';
-      date.style.fontSize = '14px';
-      date.style.color = '#666';
-      date.style.textAlign = 'center';
-
-      // Add title and date to the div
-      itemDiv.appendChild(title);
-      itemDiv.appendChild(date);
+      mediaDiv.appendChild(img);
+      itemDiv.appendChild(mediaDiv);
     }
 
-    // Check if the item is a video
     if (item.media_type === 'video') {
-      // NASA-branded video card
-      const videoCard = document.createElement('div');
-      videoCard.className = 'nasa-video-card';
-      videoCard.style.width = '340px';
-      videoCard.style.height = '230px';
-      videoCard.style.display = 'flex';
-      videoCard.style.alignItems = 'center';
-      videoCard.style.justifyContent = 'center';
-      videoCard.style.background = 'var(--nasa-blue)';
-      videoCard.style.borderRadius = '10px';
-      videoCard.style.marginBottom = '8px';
-      videoCard.style.border = '3px solid var(--nasa-red)';
-      videoCard.style.position = 'relative';
+      // Create a div for media
+      mediaDiv = document.createElement('div');
+      mediaDiv.className = 'nasa-video-card';
       // Add a NASA worm logo watermark (bottom right)
       const logo = document.createElement('img');
       logo.src = 'img/nasa-worm-logo.png';
@@ -148,9 +122,9 @@ function displayImages(images) {
       logo.style.position = 'absolute';
       logo.style.bottom = '8px';
       logo.style.right = '8px';
-      logo.style.width = '38px';
+      logo.style.width = '36px';
       logo.style.opacity = '0.85';
-      videoCard.appendChild(logo);
+      mediaDiv.appendChild(logo);
       // Add a play icon using SVG (white triangle, NASA style)
       const playIcon = document.createElement('div');
       playIcon.innerHTML = `
@@ -161,43 +135,29 @@ function displayImages(images) {
       `;
       playIcon.style.zIndex = '2';
       playIcon.style.position = 'relative';
-      videoCard.appendChild(playIcon);
-      itemDiv.appendChild(videoCard);
+      mediaDiv.appendChild(playIcon);
+      itemDiv.appendChild(mediaDiv);
+    }
 
-      // Create a title element (NASA font/colors)
-      const title = document.createElement('p');
-      title.textContent = item.title;
-      title.style.fontWeight = 'bold';
-      title.style.margin = '14px 0 10px 0';
-      title.style.fontSize = '16px';
-      title.style.textAlign = 'center';
-      title.style.fontFamily = "'Inter', Helvetica, Arial, sans-serif";
-      title.style.color = 'var(--nasa-red)';
-      itemDiv.appendChild(title);
+    // --- Card Title (same for both) ---
+    const title = document.createElement('div');
+    title.className = 'card-title';
+    title.textContent = item.title;
+    itemDiv.appendChild(title);
 
-      // Create a date element (formatted, NASA mono font)
-      const date = document.createElement('p');
-      date.textContent = formatDateLong(item.date);
-      date.className = 'date-label';
-      date.style.margin = '0 0 0 0';
-      date.style.fontSize = '14px';
-      date.style.color = 'var(--nasa-blue)';
-      date.style.textAlign = 'center';
-      date.style.fontFamily = "'DM Mono', 'Courier New', monospace";
-      itemDiv.appendChild(date);
+    // --- Card Date (same for both) ---
+    const date = document.createElement('div');
+    date.className = 'card-date';
+    date.textContent = formatDateLong(item.date);
+    itemDiv.appendChild(date);
 
-      // Create a "Watch Video" link (NASA blue, bold, underline)
+    // --- Video link for video cards only ---
+    if (item.media_type === 'video') {
       const watchLink = document.createElement('a');
       watchLink.href = item.url;
       watchLink.textContent = 'Watch Video';
       watchLink.target = '_blank';
-      watchLink.style.display = 'block';
-      watchLink.style.textAlign = 'center';
-      watchLink.style.margin = '10px 0';
-      watchLink.style.fontWeight = 'bold';
-      watchLink.style.color = 'var(--nasa-blue)';
-      watchLink.style.textDecoration = 'underline';
-      watchLink.style.fontFamily = "'Public Sans', Arial, sans-serif";
+      watchLink.className = 'card-link';
       // Optional: open in modal instead of new tab
       watchLink.addEventListener('click', (e) => {
         e.preventDefault();
@@ -402,25 +362,22 @@ getImagesButton.addEventListener('click', async () => {
 
   // Show loading message and random fact
   loadingMessage.style.display = 'flex';
-  loadingMessage.style.background = 'var(--nasa-blue)'; // NASA blue background
-  loadingMessage.style.border = '3px solid var(--nasa-red)'; // NASA red border
-  loadingMessage.style.color = 'var(--nasa-white)'; // White text
-  loadingMessage.style.fontFamily = "'Inter', Helvetica, Arial, sans-serif";
-  loadingMessage.style.fontWeight = 'bold';
-  loadingMessage.style.fontSize = '1.4em';
-  // Add NASA logo to loading overlay if not already present
-  if (!document.getElementById('nasa-loading-logo')) {
-    const logo = document.createElement('img');
-    logo.src = 'img/nasa-worm-logo.png';
-    logo.alt = 'NASA Logo';
-    logo.id = 'nasa-loading-logo';
-    logo.style.width = '60px';
-    logo.style.marginBottom = '12px';
-    logo.style.display = 'block';
-    logo.style.marginLeft = 'auto';
-    logo.style.marginRight = 'auto';
-    loadingMessage.insertBefore(logo, loadingMessage.firstChild);
+  showRandomSpaceFact();
+
+  // Change loading text to a clever, space-themed message
+  const loadingTextSpan = loadingMessage.querySelector('span:nth-child(2)');
+  if (loadingTextSpan) {
+    loadingTextSpan.textContent = 'Transmitting cosmic images from NASA...';
   }
+
+  // Insert NASA red bar accent under loading text if not already present
+  const loadingDiv = loadingMessage.querySelector('div');
+  if (loadingDiv && !loadingDiv.querySelector('.nasa-red-bar')) {
+    const redBar = document.createElement('span');
+    redBar.className = 'nasa-red-bar';
+    loadingDiv.appendChild(redBar);
+  }
+
   gallery.innerHTML = '';
   placeholder.style.display = 'none';
 
@@ -433,13 +390,16 @@ getImagesButton.addEventListener('click', async () => {
     } else {
       images = await fetchAPODImages(dates[0], dates[dates.length - 1]);
     }
-    // Display the images
-    displayImages(images);
-    // Hide the placeholder
-    placeholder.style.display = 'none';
-    // Hide loading message and fact after images are shown
-    loadingMessage.style.display = 'none';
-    hideSpaceFact();
+    // Add a slightly longer delay (2.2 seconds) so the user can read the loading message and fact
+    setTimeout(() => {
+      // Display the images
+      displayImages(images);
+      // Hide the placeholder
+      placeholder.style.display = 'none';
+      // Hide loading message and fact after images are shown
+      loadingMessage.style.display = 'none';
+      hideSpaceFact();
+    }, 2200); // 2.2 seconds delay
   } catch (error) {
     // Show error message
     gallery.innerHTML = `<p>Could not fetch images. Please try again later.</p>`;
@@ -447,4 +407,56 @@ getImagesButton.addEventListener('click', async () => {
     loadingMessage.style.display = 'none';
     hideSpaceFact();
   }
+});
+
+// NASA Hero Banner Starfield Animation
+// This code creates a simple animated starfield in the hero section
+window.addEventListener('DOMContentLoaded', () => {
+  const canvas = document.getElementById('starfield');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = 260;
+  const stars = [];
+  const STAR_COUNT = 80;
+
+  // Create stars with random positions and speeds
+  for (let i = 0; i < STAR_COUNT; i++) {
+    stars.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      r: Math.random() * 1.5 + 0.5,
+      speed: Math.random() * 0.3 + 0.1
+    });
+  }
+
+  function drawStars() {
+    ctx.clearRect(0, 0, width, height);
+    for (const star of stars) {
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.r, 0, 2 * Math.PI);
+      ctx.fillStyle = '#fff';
+      ctx.globalAlpha = 0.85;
+      ctx.shadowColor = '#fff';
+      ctx.shadowBlur = 6;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.shadowBlur = 0;
+      // Move star downward, loop to top if needed
+      star.y += star.speed;
+      if (star.y > height) {
+        star.y = 0;
+        star.x = Math.random() * width;
+      }
+    }
+    requestAnimationFrame(drawStars);
+  }
+
+  drawStars();
+
+  // Resize canvas on window resize
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = 260;
+  });
 });

@@ -11,6 +11,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Public+Sans:wght@400;700&family=DM+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- NASA Hero Banner -->
+  <section class="nasa-hero">
+    <canvas id="starfield"></canvas>
+    <div class="nasa-hero-content">
+      <img src="img/nasa-worm-logo.png" alt="NASA Logo" class="nasa-hero-logo" />
+      <h2 class="nasa-hero-title">Explore the Universe with NASA</h2>
+      <p class="nasa-hero-subtitle">Discover a new space image every day, powered by NASA's Astronomy Picture of the Day API.</p>
+    </div>
+  </section>
   <div class="container">
     <header class="site-header">
       <!-- NASA logo before the title, on a white background per guidelines -->
@@ -30,6 +39,7 @@
         <span class="loading-spinner">🚀</span>
         <span>Loading images...</span>
       </div>
+      <!-- The space fact will be shown here while loading -->
       <div id="did-you-know" class="did-you-know"></div>
     </div>
 
