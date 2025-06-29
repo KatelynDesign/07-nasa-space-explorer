@@ -42,6 +42,20 @@ body {
   margin-bottom: 32px;
 }
 
+/* --- Subtle NASA Accent Bar Under Main Container --- */
+/* Remove the accent bar by commenting out or deleting this block */
+/*
+.container::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, var(--nasa-red) 0%, var(--nasa-gold) 50%, var(--nasa-light-blue) 100%);
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 18px;
+}
+*/
+
 /* Header */
 .site-header {
   display: flex;
@@ -115,10 +129,12 @@ button {
   box-shadow: 0 2px 8px rgba(11,61,145,0.08);
   transition: background 0.2s, box-shadow 0.2s;
 }
+/* --- Button: NASA Gold Glow on Hover for More Visual Interest --- */
 button:hover {
   background: var(--nasa-red);
   color: var(--nasa-white);
-  box-shadow: 0 4px 16px rgba(252,61,33,0.12);
+  box-shadow: 0 4px 16px var(--nasa-gold), 0 2px 8px rgba(252,61,33,0.12);
+  border: 2px solid var(--nasa-gold);
 }
 
 @media (min-width: 600px) {
@@ -162,26 +178,18 @@ button:hover {
   align-items: center;
   padding: 18px 16px 22px 16px;
   margin: 0 auto;
-  transition: box-shadow 0.18s, border 0.18s; /* Removed transform transition */
+  transition: box-shadow 0.18s, border 0.18s, transform 0.18s;
   overflow: hidden;
   position: relative;
+}
+/* --- Gallery Card: Add a Thin NASA Red Top Border for Extra Accent --- */
+.gallery-item {
+  border-top: 6px solid var(--nasa-red);
 }
 .gallery-item:hover {
   box-shadow: 0 8px 32px rgba(252,61,33,0.13);
   border: 3px solid var(--nasa-red);
-  /* Removed: transform: translateY(-6px) scale(1.025); */
-  /* Only color and shadow change on hover */
-}
-
-/* Hover Zoom Effect for gallery images */
-.gallery-item .gallery-media,
-.gallery-item img {
-  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
-}
-
-.gallery-item:hover .gallery-media,
-.gallery-item:hover img {
-  transform: scale(1.07);
+  transform: translateY(-6px) scale(1.025);
 }
 
 /* Shared image/video area */
@@ -226,7 +234,6 @@ button:hover {
   box-shadow: 0 2px 12px rgba(27,58,91,0.13);
   overflow: hidden;
 }
-/* Hide NASA logo in video card */
 .nasa-video-card img {
   display: none !important;
 }
@@ -249,6 +256,10 @@ button:hover {
   padding-left: 0;
   padding-right: 0;
   box-sizing: border-box;
+}
+/* --- Card Title: Add NASA Light Blue Shadow for Depth --- */
+.gallery-item .card-title {
+  text-shadow: 0 2px 6px var(--nasa-light-blue);
 }
 
 /* Card Date - left aligned, space below */
@@ -301,10 +312,11 @@ button:hover {
   box-shadow: 0 2px 12px rgba(11,61,145,0.06);
 }
 
+/* --- Placeholder Icon: NASA Gold for a Friendly Touch --- */
 .placeholder-icon {
   font-size: 56px;
   margin-bottom: 20px;
-  color: var(--nasa-red);
+  color: var(--nasa-gold);
 }
 
 /* Modal styles */
